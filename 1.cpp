@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+#include <Windows.h>
+#include <conio.h>
+
+
+int main(void)
+{
+	//??????
+	HANDLE hOut = NULL;
+	HANDLE hIn = NULL;
+
+	//?????????
+	INPUT_RECORD mouseRecord;
+
+	//????????
+	DWORD res;
+
+	//??????????
+	COORD pos;
+
+
+	//????????
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	//????????
+	hIn = GetStdHandle(STD_INPUT_HANDLE);
+	
+	while (1)
+	{
+		//??????
+		ReadConsoleInput(hIn, &mouseRecord, 1, &res);
+
+		//????????
+		pos = mouseRecord.Event.MouseEvent.dwMousePosition;
+
+		//???????????
+		if (mouseRecord.EventType == MOUSE_EVENT)
+		{
+			//??????
+			if (mouseRecord.Event.MouseEvent.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED)
+			{
+				printf("?????? x: %d y: %d\n", pos.X, pos.Y);
+			}
+
+			//??????
+			if (mouseRecord.Event.MouseEvent.dwButtonState == RIGHTMOST_BUTTON_PRESSED)
+			{
+				printf("?????? x: %d y: %d\n", pos.X, pos.Y);
+			}
+
+			//??????????
+			if (mouseRecord.Event.MouseEvent.dwEventFlags == DOUBLE_CLICK)
+			{
+				break;
+			}
+
+		}
+	}
+
+	//????
+	CloseHandle(hOut);
+	CloseHandle(hIn);
+
+	//system("pause");
+	getchar();
+	return 0;
+}
